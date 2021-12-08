@@ -24,13 +24,17 @@ import java.util.Scanner;
      * @return the valid command the user entered
      * 
      */
+    public static boolean closed = false;
     public static String getValidInput(String[] validInputs)
     {
         String input = "";
         boolean valid = false;
         do
-        {
+        {   
             input = getLine().toLowerCase();
+            if (closed) {
+                return "";
+                }
             for(String str : validInputs)
             {
                 if(input.equals(str.toLowerCase()))

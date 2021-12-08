@@ -1,6 +1,4 @@
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Image;
 import java.awt.Point;
@@ -53,7 +51,7 @@ public class GameGUI extends JComponent
 
   // walls, prizes, traps
   private int totalWalls;
-  private Rectangle[] walls; 
+  private Rectangle[] walls;
   private Image wallImage;
   private Image wall2Image;
   private Image prizeImage;
@@ -62,6 +60,8 @@ public class GameGUI extends JComponent
   private Rectangle[] prizes;
   private int totalTraps;
   private Rectangle[] traps;
+
+  private int imageMode = 1;
 
   // scores, sometimes awarded as (negative) penalties
   private int prizeVal = 10;
@@ -83,27 +83,27 @@ public class GameGUI extends JComponent
     try {
       bgImage = ImageIO.read(new File("grid.png"));      
     } catch (Exception e) {
-      System.err.println("Could not open file grid.png");
+      System.err.println("Could not open file GRID.png");
     }      
     try {
       prizeImage = ImageIO.read(new File("coin.png"));      
     } catch (Exception e) {
-      System.err.println("Could not open file coin.png");
+      System.err.println("Could not open file COIN.png");
     }
     try {
       trapImage = ImageIO.read(new File("rock.png"));      
     } catch (Exception e) {
-      System.err.println("Could not open file rock.png");
+      System.err.println("Could not open file ROCK.png");
     }
     try {
       wallImage = ImageIO.read(new File("wall.png"));      
     } catch (Exception e) {
-      System.err.println("Could not open file wall.png");
+      System.err.println("Could not open file WALL.png");
     }
     try {
       wall2Image = ImageIO.read(new File("otherWall.png"));      
     } catch (Exception e) {
-      System.err.println("Could not open file wall.png");
+      System.err.println("Could not open file OTHERWALL.png");
     }
   
     // player image, student can customize this image by changing file on disk
@@ -115,14 +115,14 @@ public class GameGUI extends JComponent
     try {
       player2 = ImageIO.read(new File("dukeSmall.png"));      
     } catch (Exception e) {
-     System.err.println("Could not open file DUKELARGE.png");
+     System.err.println("Could not open file DUKESMALL.png");
     }
     // save player location
     playerLoc = new Point(x,y);
     player2Loc = new Point(x2,y2);
 
     // create the game frame
-    frame = new JFrame();
+    frame = new JFrame("7-11");
     frame.setTitle("EscapeRoom");
     frame.setSize(WIDTH, HEIGHT);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -289,6 +289,20 @@ public class GameGUI extends JComponent
           //System.out.println("A TRAP IS AHEAD");
           return true;
         }
+        
+        if (r.contains(px, py))
+        {
+          r.setSize(29,29);
+        } else if (r.contains(px+SPACE_SIZE, py))
+        {
+          r.setSize(29,29);
+        } else if (r.contains(px, py-SPACE_SIZE))
+        {
+          r.setSize(29,29);
+        } else if (r.contains(px, py+SPACE_SIZE))
+        {
+          r.setSize(29,29);
+        }
       }
     }
     // there is no trap where player wants to go
@@ -350,7 +364,7 @@ public class GameGUI extends JComponent
     if (plIn == 1) {
       px = playerLoc.getX();
       py = playerLoc.getY();
-    } else if (plIn == 1) {
+    } else if (plIn == 2) {
       px = player2Loc.getX();
       py = player2Loc.getY();
     }
@@ -472,28 +486,27 @@ public class GameGUI extends JComponent
    */
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    Graphics2D g2 = (Graphics2D)g;
 
     // draw grid
-    g.drawImage(bgImage, 0, 0, null);
-    g.drawImage(bgImage, 60*8, 0, null);
-    g.drawImage(bgImage, 60*16, 0, null);
-    g.drawImage(bgImage, 60*24, 0, null);
+    g.drawImage(bgImage, 0, 0, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*8, 0, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*16, 0, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*24, 0, 60*8,60*5,null);
 
-    g.drawImage(bgImage, 0, 60*5, null);
-    g.drawImage(bgImage, 60*8, 60*5, null);
-    g.drawImage(bgImage, 60*16, 60*5, null);
-    g.drawImage(bgImage, 60*24, 60*5, null);
+    g.drawImage(bgImage, 0, 60*5, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*8, 60*5, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*16, 60*5, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*24, 60*5, 60*8,60*5,null);
 
-    g.drawImage(bgImage, 0, 60*10, null);
-    g.drawImage(bgImage, 60*8, 60*10, null);
-    g.drawImage(bgImage, 60*16, 60*10, null);
-    g.drawImage(bgImage, 60*24, 60*10, null);
+    g.drawImage(bgImage, 0, 60*10, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*8, 60*10, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*16, 60*10, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*24, 60*10, 60*8,60*5,null);
 
-    g.drawImage(bgImage, 0, 60*15, null);
-    g.drawImage(bgImage, 60*8, 60*15, null);
-    g.drawImage(bgImage, 60*16, 60*15, null);
-    g.drawImage(bgImage, 60*24, 60*15, null);
+    g.drawImage(bgImage, 0, 60*15, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*8, 60*15, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*16, 60*15, 60*8,60*5,null);
+    g.drawImage(bgImage, 60*24, 60*15, 60*8,60*5,null);
 
     // add (invisible) traps
     for (Rectangle t : traps)
@@ -503,7 +516,7 @@ public class GameGUI extends JComponent
         int x = (int)t.getX();
         int y = (int)t.getY();
         g.drawImage(trapImage, x, y,30,30, null);
-      } else {
+      } else if (t.getWidth() == 29) {
         int x = (int)t.getX();
         int y = (int)t.getY();
         g.drawImage(trapImage, x, y,30,30, null);
@@ -516,9 +529,9 @@ public class GameGUI extends JComponent
       // picked up prizes are 0 size so don't render
       if (p.getWidth() > 0) 
       {
-      int px = (int)p.getX();
-      int py = (int)p.getY();
-      g.drawImage(prizeImage, px, py, null);
+        int px = (int)p.getX();
+        int py = (int)p.getY();
+        g.drawImage(prizeImage, px, py, 40,40,null);
       }
     }
 
@@ -581,7 +594,7 @@ public class GameGUI extends JComponent
       int w = rand.nextInt(GRID_W);
 
       Rectangle r;
-      r = new Rectangle((w*s + 15),(h*s + 15), 15, 15);
+      r = new Rectangle((w*s + 15),(h*s + 15), 30, 30);
       traps[numTraps] = r;
      }
   }
@@ -635,5 +648,87 @@ public class GameGUI extends JComponent
       score = -endVal;
     }
     return score;
+  }
+  public void switchImages() {
+    if (imageMode == 2) {
+      imageMode = 1;
+      try {
+        bgImage = ImageIO.read(new File("grid.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file GRID.png");
+      }      
+      try {
+        prizeImage = ImageIO.read(new File("coin.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file COIN.png");
+      }
+      try {
+        trapImage = ImageIO.read(new File("rock.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file ROCK.png");
+      }
+      try {
+        wallImage = ImageIO.read(new File("wall.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file WALL.png");
+      }
+      try {
+        wall2Image = ImageIO.read(new File("otherWall.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file OTHERWALL.png");
+      }
+    
+      // player image, student can customize this image by changing file on disk
+      try {
+        player = ImageIO.read(new File("dukeLarge.png"));      
+      } catch (Exception e) {
+      System.err.println("Could not open file DUKELARGE.png");
+      }
+      try {
+        player2 = ImageIO.read(new File("dukeSmall.png"));      
+      } catch (Exception e) {
+      System.err.println("Could not open file DUKESMALL.png");
+      }
+    } else if (imageMode == 1) {
+      imageMode = 2;
+      try {
+        bgImage = ImageIO.read(new File("frank.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file FRANK.png");
+      }      
+      try {
+        prizeImage = ImageIO.read(new File("frank.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file FRANK.png");
+      }
+      try {
+        trapImage = ImageIO.read(new File("frank.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file FRANK.png");
+      }
+      try {
+        wallImage = ImageIO.read(new File("frank.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file FRANK.png");
+      }
+      try {
+        wall2Image = ImageIO.read(new File("frank.png"));      
+      } catch (Exception e) {
+        System.err.println("Could not open file FRANK.png");
+      }
+    
+      // player image, student can customize this image by changing file on disk
+      try {
+        player = ImageIO.read(new File("frank.png"));      
+      } catch (Exception e) {
+      System.err.println("Could not open file FRANK.png");
+      }
+      try {
+        player2 = ImageIO.read(new File("frank.png"));      
+      } catch (Exception e) {
+      System.err.println("Could not open file FRANK.png");
+      }
+    }
+    repaint();
   }
 }
